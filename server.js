@@ -1,8 +1,6 @@
-require('dotenv').config() 
-
 const express = require('express');
 const mongoose = require('mongoose');
-const serverless = require('serverless-http'); // Add this line
+const serverless = require('serverless-http');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,11 +28,9 @@ app.all('*', (req, res) => {
 
 // Connect to the database before listening
 connectDB().then(() => {
-  // Comment out or remove the app.listen() call
-  // app.listen(PORT, () => {
-  //   console.log("listening for requests");
-  // });
+  // No app.listen() here
 });
 
 // Export the app for serverless deployment
+module.exports = app;
 module.exports.handler = serverless(app);
