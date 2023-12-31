@@ -1,0 +1,28 @@
+GET http://localhost:3000/tasks  
+    
+   
+### 
+GET http://localhost:3000/tasks/6590b28a9bb5472026700d1d
+
+###
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+    "title": "mengerjakan artikel", 
+    "subject": "mbd",
+    "description": "connect linked in dan membuat artikel",
+    "deadline_date": "2024-01-09",
+    "deadline_time": "23.59"
+}
+
+### 
+DELETE http://localhost:3000/tasks/6590b116981cca474e103027
+
+### 
+PATCH http://localhost:3000/tasks/6590b28a9bb5472026700d1d
+Content-Type: application/json
+
+{
+    "title": "membuat aplikasi sederhana"
+}
