@@ -1,40 +1,18 @@
 require('dotenv').config() 
 
-const express = require('express');
-const mongoose = require('mongoose');
-const serverless = require('serverless-http'); // Add this line
+const express = require('express')
+const app = express()  
+const mongoose = require('mongoose')
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+mongoose.connect(process.env.DATABASE_URL)
+const db = mongoose.connection
+db.on('error', (error) => console.error(error))
+db.once('open', () => console.log("connected to MongoDB"))
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.DATABASE_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-};
 
-// Middleware
-app.use(express.json());
+app.use(express.json())
 
-// Routes go here
-app.all('*', (req, res) => {
-  res.json({ "everything": "is awesome" });
-});
+const tasksRouter = require('./routes/tasks')
+app.use('/tasks', tasksRouter)
 
-// Connect to the database before listening
-connectDB().then(() => {
-  // Comment out or remove the app.listen() call
-  // app.listen(PORT, () => {
-  //   console.log("listening for requests");
-  // });
-});
-
-// Export the app for serverless deployment
-module.exports.handler = serverless(app);
+app.listen(3000, () => console.log('Server started'))  
