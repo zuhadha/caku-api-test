@@ -9,9 +9,8 @@ const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log("connected to MongoDB"))
 
-
 app.use(express.json())
 
-const tasksRouter = require('./routes/tasks')
-app.use('/tasks', tasksRouter)
+const tasksRouter = require('./routes/users')
+app.use('/users', tasksRouter)
 app.listen(3000, () => console.log('Server started'))  
