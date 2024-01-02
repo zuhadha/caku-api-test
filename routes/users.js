@@ -20,12 +20,8 @@ router.get('/:id', getTask, (req, res) => {
 // creating one
 router.post('/', async (req, res) => {
     const User = new User({
-        title: req.body.title, 
-        subject: req.body.subject,
-        description: req.body.description,
-        deadline_date: req.body.deadline_date,
-        deadline_time: req.body.deadline_time,
-
+        username: req.body.username, 
+        password: req.body.password
     })
 
     try {
@@ -38,20 +34,11 @@ router.post('/', async (req, res) => {
 
 //updating one
 router.patch('/:id', getTask, async (req, res) => {
-    if (req.body.title != null) {
-        res.User.title = req.body.title
+    if (req.body.username != null) {
+        res.User.username = req.body.username
     }
-    if (req.body.description != null) {
-        res.User.description = req.body.description
-    }
-    if (req.body.subject != null) {
-        res.User.subject = req.body.subject
-    }
-    if (req.body.deadline_date != null) {
-        res.User.deadline_date = req.body.deadline_date
-    }
-    if (req.body.deadline_time != null) {
-        res.User.deadline_time = req.body.deadline_time
+    if (req.body.password != null) {
+        res.User.password = req.body.password
     }
 
     try {
