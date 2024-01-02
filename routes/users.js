@@ -1,78 +1,81 @@
-const express = require('express')
-const router = express.Router()
-const User = require('../models/user')
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
 
-// getting all 
+// Getting all users
 router.get('/', async (req, res) => {
     try {
-        const user = await User.find()
-        res.json(user)
+        const users = await User.find();
+        res.json(users);
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        res.status(500).json({ message: err.message });
     }
-})
- 
-// getting one
-router.get('/:id', getTask, (req, res) => {
-    res.json(res.User)
-})
+});
 
-// creating one
+// Getting one user
+router.get('/:id', getUser, (req, res) => {
+    res.json(res.user);
+});
+
+// Creating one user
 router.post('/', async (req, res) => {
-    const User = new User({
-        username: req.body.username, 
-        password: req.body.password
-    })
+    const user = new User({
+        username: req.body.username,
+        password: req.body.password,
+    });
 
     try {
-        const newTask = await User.save()
-        res.status(201).json(newTask)
+        const newUser = await user.save();
+        res.status(201).json(newUser);
     } catch (err) {
-        res.status(400).json({message: err.message})
+        res.status(400).json({ message: err.message });
     }
-})
+});
 
-//updating one
-router.patch('/:id', getTask, async (req, res) => {
+// Updating one user
+router.patch('/:id', getUser, async (req, res) => {
     if (req.body.username != null) {
-        res.User.username = req.body.username
+        res.user.username = req.body.username;
     }
     if (req.body.password != null) {
-        res.User.password = req.body.password
+        res.user.password = req.body.password;
     }
 
     try {
-        const updatedTask = await res.User.save()
-        res.json(updatedTask)
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
     } catch (error) {
-        res.status(400).json({message: error.message})
+        res.status(400).json({ message: error.message });
     }
-})
+});
 
-// deleting one
-router.delete('/:id', getTask, async (req, res) => {
+// Deleting one user
+router.delete('/:id', getUser, async (req, res) => {
     try {
-        await res.User.deleteOne()
-        res.json({message: "deleted User"})
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-
-})
-
-async function getTask(req, res, next) {
-    let User
-    try {
-        User = await User.findById(req.params.id)
-        if (User == null) {
-            return res.status(404).json({message: 'Cannot find User!'})
+        if (res.user) {
+            await res.user.deleteOne();
+            res.json({ message: 'Deleted user' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
     } catch (error) {
-        return res.status(500).json({message: error.message})
+        res.status(500).json({ message: error.message });
+    }
+});
+
+async function getUser(req, res, next) {
+    let user;
+    try {
+        user = await User.findById(req.params.id);
+        if (user == null) {
+            return res.status(404).json({ message: 'Cannot find user' });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
     }
 
-    res.User = User
-    next()
+    res.user = user;
+    next();
 }
 
-module.exports = router
+module.exports = router;

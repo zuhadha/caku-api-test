@@ -16,6 +16,15 @@ Content-Type: application/json
     "deadline_time": "23.59"
 }
 
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "rizq", 
+    "password": "mbd213123"
+}
+
 ### 
 DELETE http://localhost:3000/tasks/6590b116981cca474e103027
 
